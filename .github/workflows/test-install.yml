@@ -1,0 +1,15 @@
+name: Test Install
+
+on: push
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set branch name in env var
+        run: |
+          cd transactions-from-yearn-deployers
+          sed -i 's/ssh:\/\/git@github.com/https:\/\/${{ secrets.NODE_AUTH_TOKEN }}:x-oauth-basic@github.com/g' package.json
+          cat package.json
+          npm install
