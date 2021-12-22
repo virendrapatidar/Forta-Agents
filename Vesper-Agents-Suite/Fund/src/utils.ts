@@ -10,6 +10,7 @@ const mockList = [
   "0xa4F1671d3Aee73C05b552d57f2d16d3cfcBd0217",
   "0x097ee00F42f9D7512929A6434185Ae94aC6dafD7",
 ];
+const vVSPContract = '0xbA4cFE5741b357FA371b506e5db0774aBFeCf8Fc'
 
 const getTotalValue = async (contract: any, blockNumber: number) => {
   const value = await contract.methods.totalValue().call({}, blockNumber);
@@ -61,7 +62,10 @@ const getPools = async (
     const poolAddress = await addressListContract.methods
       .at(i)
       .call({}, blockNumber);
-    pools.push(poolAddress);
+    // Skip vVSP contract
+    if (poolAddress.toLowerCase() !== vVSPContract.toLowerCase()) {  
+      pools.push(poolAddress);
+    } 
   }
   return pools;
 };
